@@ -15,6 +15,14 @@ const DrawerLayout = () => (
       }}
     />
     <Drawer.Screen
+      name="collection"
+      options={{
+        headerTitle: 'Collection',
+        drawerLabel: 'Collection',
+        drawerIcon: ({ size, color }) => <Ionicons name="home-outline" size={size} color={color} />,
+      }}
+    />
+    <Drawer.Screen
       name="(tabs)"
       options={{
         headerTitle: 'Tabs',
