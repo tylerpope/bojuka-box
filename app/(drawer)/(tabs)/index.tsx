@@ -1,17 +1,28 @@
-import { Stack } from 'expo-router';
-
 import { Container } from '~/components/Container';
-import { ScreenContent } from '~/components/ScreenContent';
-import { useTheme } from '~/hooks/useTheme';
+import ContentCardView, { ContentCard } from '~/components/ContentCard';
+import Empty from '~/components/Empty';
+import Boulder from '~/components/icons/Boulder';
+
+// const testBinder: ContentCard = {
+//   id: 1,
+//   title: 'Black Rares',
+// };
+
+const cards: ContentCard[] = [];
 
 export default function Home() {
-  const [theme] = useTheme();
-  console.log(theme);
   return (
     <>
-      <Stack.Screen options={{ title: 'Tab One' }} />
       <Container>
-        <ScreenContent path="app/(drawer)/(tabs)/index.tsx" title="Tab One" />
+        {!cards.length ? (
+          <Empty
+            Icon={Boulder}
+            message="Click the button below to create your first deck!"
+            title="No decks found."
+          />
+        ) : (
+          cards.map((data) => <ContentCardView key={data.id} data={data} />)
+        )}
       </Container>
     </>
   );

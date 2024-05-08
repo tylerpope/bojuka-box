@@ -1,37 +1,65 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState, useEffect } from 'react';
-import { ColorSchemeName, Appearance } from 'react-native';
+import { ColorSchemeName, Appearance, AppState } from 'react-native';
 
-type setThemeStorageFunction = (scheme: string) => Promise<void>;
+export const THEMES = {
+  DARK: 'dark',
+  LIGHT: 'light',
+};
 
 export function useTheme() {
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [theme, setTheme] = useState<ColorSchemeName>(null);
-  const defaultTheme = Appearance.getColorScheme();
 
-  const getStoredTheme = async () => {
-    const storedTheme = await AsyncStorage.getItem('theme');
+  useEffect(() => {
+    const handleAppStateChange = () => {
+      getTheme();
+    };
 
-    if (storedTheme === 'light' || storedTheme === 'dark') {
-      setTheme(storedTheme);
-    } else {
-      setTheme(defaultTheme);
-    }
+    const subscription = AppState.addEventListener('change', handleAppStateChange);
+
+    return () => {
+      subscription.remove();
+    };
+  }, []);
+
+  const getTheme = async () => {
+    setLoading(true);
+
+    const defaultTheme: ColorSchemeName = Appearance.getColorScheme();
+    const storedTheme: any = await AsyncStorage.getItem('theme');
+
+    setTheme(storedTheme || defaultTheme);
 
     setLoading(false);
   };
 
-  const setThemeWithStorage: setThemeStorageFunction = async (scheme) => {
-    await AsyncStorage.setItem('theme', scheme);
-
-    if (scheme === 'light' || scheme === 'dark') {
-      setTheme(scheme);
-    }
+  const setThemeWithStorage: (scheme: ColorSchemeName) => Promise<void> = async (scheme) => {
+    await AsyncStorage.setItem('theme', scheme as string);
+    setTheme(scheme);
   };
 
-  useEffect(() => {
-    getStoredTheme();
-  }, []);
+  const themeStyles = theme
+    ? {
+        light: {
+          text: '#000000',
+          header: {
+            backgroundColor: '#272727',
+          },
+        },
+        dark: {
+          text: '#FFFFFF',
+          backgroundColor: '#323232',
+          header: {
+            headerStyle: {
+              backgroundColor: '#272727',
+            },
+            headerShadowVisible: false,
+            headerTintColor: '#FFFFFF',
+          },
+        },
+      }[theme]
+    : {};
 
-  return [theme, setThemeWithStorage, loading] as const;
+  return [themeStyles, loading, setThemeWithStorage] as const;
 }

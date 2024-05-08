@@ -1,7 +1,7 @@
 import { useFonts, Poppins_600SemiBold } from '@expo-google-fonts/poppins';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { useTheme } from '~/hooks/useTheme';
@@ -14,21 +14,28 @@ export const unstable_settings = {
 };
 
 export default function RootLayout() {
-  const [fontsLoaded, fontError] = useFonts({
+  const [appLoaded, setAppLoaded] = useState(false);
+  const [fontsLoaded] = useFonts({
     Poppins_600SemiBold,
   });
 
-  const [, , loading] = useTheme();
+  const [, loading] = useTheme();
 
-  const assetsLoaded = async () => {
+  const hideSplash = async () => {
     await SplashScreen.hideAsync();
   };
 
   useEffect(() => {
     if (fontsLoaded && !loading) {
-      assetsLoaded();
+      setAppLoaded(true);
     }
-  }, [fontsLoaded]);
+  }, [fontsLoaded, loading]);
+
+  useEffect(() => {
+    if (appLoaded) hideSplash();
+  }, [appLoaded]);
+
+  if (!appLoaded) return null;
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>

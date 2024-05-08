@@ -1,19 +1,24 @@
 import { Tabs } from 'expo-router';
-import { StyleSheet } from 'react-native';
 
 import { TabBarIcon } from '~/components/TabBarIcon';
+import { useTheme } from '~/hooks/useTheme';
 
 export default function TabLayout() {
+  const [theme] = useTheme();
+
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: 'black',
+        tabBarStyle: {
+          backgroundColor: theme.backgroundColor,
+        },
       }}>
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Tab One',
+          title: 'Binders',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />
