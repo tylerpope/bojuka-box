@@ -1,4 +1,4 @@
-import { StyleSheet, SafeAreaView } from 'react-native';
+import { StyleSheet, SafeAreaView, View } from 'react-native';
 
 import { useTheme } from '~/hooks/useTheme';
 
@@ -11,7 +11,7 @@ export const Container = ({ children }: { children: React.ReactNode }) => {
         ...styles.container,
         backgroundColor: theme.backgroundColor,
       }}>
-      {children}
+      <View style={styles.innerContainer}>{children}</View>
     </SafeAreaView>
   );
 };
@@ -19,7 +19,9 @@ export const Container = ({ children }: { children: React.ReactNode }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 24,
     alignItems: 'center',
+  },
+  innerContainer: {
+    padding: 20,
   },
 });

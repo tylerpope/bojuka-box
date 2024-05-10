@@ -12,16 +12,20 @@ export function useTheme() {
   const [theme, setTheme] = useState<ColorSchemeName>(null);
 
   useEffect(() => {
-    const handleAppStateChange = () => {
-      getTheme();
-    };
-
-    const subscription = AppState.addEventListener('change', handleAppStateChange);
-
-    return () => {
-      subscription.remove();
-    };
+    getTheme();
   }, []);
+
+  // useEffect(() => {
+  //   const handleAppStateChange = () => {
+  //     getTheme();
+  //   };
+
+  //   const subscription = AppState.addEventListener('change', handleAppStateChange);
+
+  //   return () => {
+  //     subscription.remove();
+  //   };
+  // }, []);
 
   const getTheme = async () => {
     setLoading(true);

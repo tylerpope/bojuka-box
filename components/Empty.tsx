@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { SvgProps } from 'react-native-svg';
 
-import { Container } from './Container';
+import { Button } from './Button';
 
 import { useTheme } from '~/hooks/useTheme';
 
@@ -9,15 +9,16 @@ type Empty = {
   title: string;
   message: string;
   Icon: (props: SvgProps) => React.ReactNode;
+  buttonText: string;
 };
 
-export default function EmptyView({ title, message, Icon }: Empty) {
+export default function EmptyView({ title, message, buttonText, Icon }: Empty) {
   const [theme, loading] = useTheme();
 
   if (loading) return null;
 
   return (
-    <Container>
+    <View style={styles.container}>
       {Icon && (
         <View style={styles.iconContainer}>
           <Icon />
@@ -25,21 +26,27 @@ export default function EmptyView({ title, message, Icon }: Empty) {
       )}
       {title && <Text style={{ ...styles.title, color: theme.text }}>{title}</Text>}
       {message && <Text style={{ ...styles.message, color: theme.text }}>{message}</Text>}
-    </Container>
+      <Button title={buttonText} />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+  },
   iconContainer: {
     marginTop: 50,
-    marginBottom: 20,
+    marginBottom: 15,
   },
   title: {
     fontFamily: 'Poppins_600SemiBold',
     fontSize: 24,
-    marginBottom: 10,
+    marginBottom: 5,
   },
   message: {
-    fontSize: 16,
+    fontSize: 18,
+    marginBottom: 30,
+    textAlign: 'center',
   },
 });

@@ -12,18 +12,17 @@ const cards: ContentCard[] = [];
 
 export default function Home() {
   return (
-    <>
-      <Container>
-        {!cards.length ? (
-          <Empty
-            Icon={Boulder}
-            message="Click the button below to create your first deck!"
-            title="No decks found."
-          />
-        ) : (
-          cards.map((data) => <ContentCardView key={data.id} data={data} />)
-        )}
-      </Container>
-    </>
+    <Container>
+      {!cards.length ? (
+        <Empty
+          Icon={Boulder}
+          message="Click the button below to create your first binder!"
+          title="No binders found."
+          buttonText="Create a Binder"
+        />
+      ) : (
+        cards.map((data) => <ContentCardView key={data.id} data={data} />)
+      )}
+    </Container>
   );
 }
