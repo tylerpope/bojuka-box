@@ -1,3 +1,4 @@
+import { Link } from 'expo-router';
 import { View, Text, StyleSheet } from 'react-native';
 import { SvgProps } from 'react-native-svg';
 
@@ -10,9 +11,10 @@ type Empty = {
   message: string;
   Icon: (props: SvgProps) => React.ReactNode;
   buttonText: string;
+  buttonRoute: any;
 };
 
-export default function EmptyView({ title, message, buttonText, Icon }: Empty) {
+export default function EmptyView({ title, message, buttonText, buttonRoute, Icon }: Empty) {
   const [theme, loading] = useTheme();
 
   if (loading) return null;
@@ -26,7 +28,9 @@ export default function EmptyView({ title, message, buttonText, Icon }: Empty) {
       )}
       {title && <Text style={{ ...styles.title, color: theme.text }}>{title}</Text>}
       {message && <Text style={{ ...styles.message, color: theme.text }}>{message}</Text>}
-      <Button title={buttonText} />
+      <Link href={buttonRoute} asChild>
+        <Button title={buttonText} />
+      </Link>
     </View>
   );
 }

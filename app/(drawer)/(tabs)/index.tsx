@@ -19,6 +19,7 @@ export default function Home() {
           message="Click the button below to create your first binder!"
           title="No binders found."
           buttonText="Create a Binder"
+          buttonRoute="modal-create-binder"
         />
       ) : (
         cards.map((data) => <ContentCardView key={data.id} data={data} />)

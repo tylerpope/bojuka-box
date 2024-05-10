@@ -19,7 +19,7 @@ export default function RootLayout() {
     Poppins_600SemiBold,
   });
 
-  const [, loading] = useTheme();
+  const [theme, loading] = useTheme();
 
   const hideSplash = async () => {
     await SplashScreen.hideAsync();
@@ -42,6 +42,14 @@ export default function RootLayout() {
       <Stack>
         <Stack.Screen name="(drawer)" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ title: 'Modal', presentation: 'modal' }} />
+        <Stack.Screen
+          name="modal-create-binder"
+          options={{
+            title: 'Create Binder',
+            presentation: 'modal',
+            ...theme.header,
+          }}
+        />
       </Stack>
     </GestureHandlerRootView>
   );
