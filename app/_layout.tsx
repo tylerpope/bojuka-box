@@ -1,6 +1,7 @@
 import { useFonts, Poppins_600SemiBold } from '@expo-google-fonts/poppins';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
+import { SQLiteProvider } from 'expo-sqlite';
 import { useEffect, useState } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
@@ -39,18 +40,20 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <Stack>
-        <Stack.Screen name="(drawer)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ title: 'Modal', presentation: 'modal' }} />
-        <Stack.Screen
-          name="modal-create-binder"
-          options={{
-            title: 'Create Binder',
-            presentation: 'modal',
-            ...theme.header,
-          }}
-        />
-      </Stack>
+      <SQLiteProvider databaseName="mtg.db" assetSource={{ assetId: require('../assets/mtg.db') }}>
+        <Stack>
+          <Stack.Screen name="(drawer)" options={{ headerShown: false }} />
+          <Stack.Screen name="modal" options={{ title: 'Modal', presentation: 'modal' }} />
+          <Stack.Screen
+            name="modal-create-binder"
+            options={{
+              title: 'Create Binder',
+              presentation: 'modal',
+              ...theme.header,
+            }}
+          />
+        </Stack>
+      </SQLiteProvider>
     </GestureHandlerRootView>
   );
 }
