@@ -54,6 +54,7 @@ export function useTheme() {
         dark: {
           text: '#FFFFFF',
           backgroundColor: '#323232',
+          backgroundColorLight: '#272727',
           header: {
             headerStyle: {
               backgroundColor: '#272727',
